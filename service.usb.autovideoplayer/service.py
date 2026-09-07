@@ -61,12 +61,20 @@ class USBAutoPlayerService:
         self.stream_monitor.reset()
         if self.player:
             self.player.debug = debug
+            self.player.user_stopped = False
+        # If switched to HLS Only mode while USB video was active, stop USB playback
+        if self.settings.is_hls_enabled() and self.settings.get_hls_priority() == HLS_PRIORITY_ONLY:
+            if self.active_source in ("USB", "USB_FALLBACK"):
+                log("Settings changed to HLS Only mode. Stopping active USB playback.")
+                if self.player and self.player.isPlaying():
+                    stop_playback(self.player)
+                self.active_source = "IDLE"
 
     def on_hls_interrupted(self, file_path):
         """Called immediately when player detects HLS stream connection was dropped."""
         log(f"HLS stream interrupted: {file_path}")
         if self.active_source == "HLS":
-            if (time.time() - self.hls_play_start_time) > 5.0:
+            if (time.time() - self.hls_play_start_time) > 2.0:
                 self.active_source = "IDLE"
 
     def trigger_manual_playback(self, target_mount=None):
@@ -247,6 +255,9 @@ class USBAutoPlayerService:
         if self.active_source == "HLS":
             return
 
+        if self.settings.is_hls_enabled() and self.settings.get_hls_priority() == HLS_PRIORITY_ONLY:
+            return
+
         if not self.settings.is_repeat():
             return
 
@@ -289,15 +300,17 @@ class USBAutoPlayerService:
         if not self.settings.is_enabled() or not self.settings.is_hls_enabled():
             return
 
-        # If user pressed stop manually, do not force-play
-        if self.player.user_stopped:
-            return
-
         hls_url = self.settings.get_hls_url()
         if not hls_url:
             return
 
         priority = self.settings.get_hls_priority()
+
+        # In HLS_PRIORITY_ONLY mode, the system always continues polling and auto-resumes when online.
+        # For other modes, honor user explicit stop on USB video.
+        if priority != HLS_PRIORITY_ONLY and self.player.user_stopped:
+            return
+
         retry_interval = self.settings.get_hls_retry_interval()
         timeout = self.settings.get_hls_timeout()
         fullscreen = self.settings.is_fullscreen()
@@ -327,6 +340,8 @@ class USBAutoPlayerService:
                     log(f"HLS stream went OFFLINE ({reason}). Halting playback.")
                     notify(get_string(30030), get_string(30067), enabled=notifications)
                     self.active_source = "IDLE"
+                    if self.player and self.player.isPlaying():
+                        stop_playback(self.player)
                     if priority != HLS_PRIORITY_ONLY:
                         mounts = self.usb_monitor.active_mounts
                         if mounts:
@@ -335,6 +350,8 @@ class USBAutoPlayerService:
                             self.active_source = "USB_FALLBACK"
                             first_mount = list(mounts.keys())[0]
                             self.start_autoplay_for_mount(first_mount)
+                    else:
+                        log(f"HLS Only mode: Stream/network offline. Continuing to poll every {retry_interval}s and will auto-resume when online.")
 
         else:
             # self.active_source != "HLS"
@@ -373,10 +390,13 @@ class USBAutoPlayerService:
                 if self.stream_monitor.should_check(retry_interval):
                     is_online, reason = self.stream_monitor.probe(hls_url, timeout=timeout)
                     if is_online:
-                        log("HLS Only mode: Stream is online, starting playback.")
+                        log("HLS Only mode: Stream and network restored ONLINE. Resuming playback.")
+                        notify(get_string(30030), get_string(30066), enabled=notifications)
                         self.active_source = "HLS"
                         self.hls_play_start_time = time.time()
                         play_hls_stream(hls_url, self.player, fullscreen, debug)
+                    else:
+                        log_debug(f"HLS Only mode: Stream still offline ({reason}). Continuing to poll every {retry_interval}s...", debug)
 
     def run(self):
         """Main service loop running with Kodi."""
@@ -401,8 +421,11 @@ class USBAutoPlayerService:
         if initial_mounts:
             log(f"Found {len(initial_mounts)} USB mount(s) already attached on startup.")
 
-        # Check HLS stream on startup if HLS is enabled and set to HLS First
-        if self.settings.is_enabled() and self.settings.is_hls_enabled() and self.settings.get_hls_priority() == HLS_PRIORITY_FIRST:
+        # Check HLS stream on startup if HLS is enabled
+        hls_enabled = self.settings.is_enabled() and self.settings.is_hls_enabled()
+        hls_priority = self.settings.get_hls_priority() if hls_enabled else None
+
+        if hls_enabled and hls_priority in (HLS_PRIORITY_FIRST, HLS_PRIORITY_ONLY):
             hls_url = self.settings.get_hls_url()
             timeout = self.settings.get_hls_timeout()
             is_online, reason = self.stream_monitor.probe(hls_url, timeout=timeout)
@@ -414,13 +437,17 @@ class USBAutoPlayerService:
                 play_hls_stream(hls_url, self.player, self.settings.is_fullscreen(), self.settings.is_debug_log_enabled())
             else:
                 log(f"Startup: HLS stream is OFFLINE ({reason}). Will not attempt to play HLS.")
-                if initial_mounts and self.settings.is_autoplay_on_insert():
+                if hls_priority == HLS_PRIORITY_FIRST and initial_mounts and self.settings.is_autoplay_on_insert():
                     log("Startup: Fallback to existing USB drive.")
                     first_mount = list(initial_mounts.keys())[0]
                     self.active_source = "USB_FALLBACK"
                     self.start_autoplay_for_mount(first_mount)
+                elif hls_priority == HLS_PRIORITY_ONLY:
+                    log("Startup: HLS Only mode active. Stream/network is offline; will continuously poll and play when online.")
+                    notify(get_string(30030), f"{get_string(30067)} ({reason})", enabled=self.settings.is_notifications_enabled())
+                    self.active_source = "IDLE"
         else:
-            # Standard USB startup
+            # Standard USB startup (or HLS_PRIORITY_USB_FIRST)
             if initial_mounts and self.settings.is_enabled() and self.settings.is_autoplay_on_insert():
                 self.monitor.waitForAbort(1.0)
                 if not self.monitor.abortRequested():
@@ -479,8 +506,11 @@ class USBAutoPlayerService:
                     ]
                     for m in ready_mounts:
                         del self.pending_mounts[m]
+                        # If in HLS Only mode, ignore USB insertion
+                        if self.settings.is_hls_enabled() and self.settings.get_hls_priority() == HLS_PRIORITY_ONLY:
+                            log("USB inserted, but HLS Only mode is active. Ignoring USB autoplay.")
                         # If HLS is active with HLS First priority, don't interrupt active HLS stream
-                        if self.settings.is_hls_enabled() and self.settings.get_hls_priority() == HLS_PRIORITY_FIRST and self.active_source == "HLS" and self.player.isPlayingVideo():
+                        elif self.settings.is_hls_enabled() and self.settings.get_hls_priority() == HLS_PRIORITY_FIRST and self.active_source == "HLS" and self.player.isPlayingVideo():
                             log("USB inserted, but HLS stream has priority and is currently playing. Keeping HLS.")
                         else:
                             if self.settings.is_enabled() and self.settings.is_autoplay_on_insert():

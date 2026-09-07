@@ -71,11 +71,23 @@ class AutoVideoPlayer(xbmc.Player):
 
     def onPlayBackStopped(self):
         """Called when user presses STOP or playback is manually aborted."""
-        log("User stopped playback. Autoplay session suspended.")
+        was_hls = self.is_playing_hls
         self.is_playing_video = False
         self.is_playing_hls = False
-        self.user_stopped = True
         self.playback_ended = False
+
+        if was_hls:
+            log("HLS stream playback stopped (network error, stream offline, or stopped).")
+            self.user_stopped = False
+            if self.on_hls_interrupted_cb:
+                try:
+                    self.on_hls_interrupted_cb(self.current_file)
+                except Exception as e:
+                    log_error("Error in on_hls_interrupted_cb", e)
+        else:
+            log("User stopped USB video playback. Autoplay session suspended.")
+            self.user_stopped = True
+
         if self.on_stopped_cb:
             try:
                 self.on_stopped_cb(self.current_file)
