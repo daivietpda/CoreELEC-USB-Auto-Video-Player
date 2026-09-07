@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <category label="30000">
+    <setting id="enabled" type="bool" label="30001" default="true"/>
+    <setting id="autoplay_on_insert" type="bool" label="30002" default="true"/>
+    <setting id="playback_mode" type="enum" label="30003" lvalues="30004|30005|30006" default="0"/>
+    <setting id="sort_order" type="enum" label="30007" lvalues="30008|30009|30010" default="0"/>
+    <setting id="scan_subfolders" type="bool" label="30011" default="true"/>
+    <setting id="fullscreen" type="bool" label="30012" default="true"/>
+    <setting id="repeat" type="bool" label="30013" default="true"/>
+    <setting id="usb_delay" type="enum" label="30014" lvalues="30015|30016|30017|30018|30019|30020" default="2"/>
+    <setting id="notifications" type="bool" label="30021" default="true"/>
+    <setting id="debug_log" type="bool" label="30022" default="false"/>
+    <setting id="manual_selected_files" type="text" default="[]" visible="false"/>
+  </category>
+</settings>

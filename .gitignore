@@ -1,0 +1,14 @@
+# Prompt specification
+Prompt – CoreELEC USB Auto Video Player Add-on.md
+*Prompt*
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS / Editor artifacts
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

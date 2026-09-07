@@ -1,0 +1,137 @@
+# Kodi Media Center language file
+# Addon Name: USB Auto Video Player
+# Addon id: service.usb.autovideoplayer
+# Addon Provider: Antigravity
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgctxt "#30000"
+msgid "General"
+msgstr ""
+
+msgctxt "#30001"
+msgid "Enable USB Auto Video Player"
+msgstr ""
+
+msgctxt "#30002"
+msgid "Auto play when USB inserted"
+msgstr ""
+
+msgctxt "#30003"
+msgid "Playback mode"
+msgstr ""
+
+msgctxt "#30004"
+msgid "Auto play single video and loop"
+msgstr ""
+
+msgctxt "#30005"
+msgid "Auto play all videos and loop"
+msgstr ""
+
+msgctxt "#30006"
+msgid "Manual video selection"
+msgstr ""
+
+msgctxt "#30007"
+msgid "Video ordering"
+msgstr ""
+
+msgctxt "#30008"
+msgid "File name A -> Z"
+msgstr ""
+
+msgctxt "#30009"
+msgid "File name Z -> A"
+msgstr ""
+
+msgctxt "#30010"
+msgid "Random"
+msgstr ""
+
+msgctxt "#30011"
+msgid "Scan subfolders"
+msgstr ""
+
+msgctxt "#30012"
+msgid "Start playback fullscreen"
+msgstr ""
+
+msgctxt "#30013"
+msgid "Repeat playback"
+msgstr ""
+
+msgctxt "#30014"
+msgid "Delay after USB detected"
+msgstr ""
+
+msgctxt "#30015"
+msgid "0 seconds"
+msgstr ""
+
+msgctxt "#30016"
+msgid "1 second"
+msgstr ""
+
+msgctxt "#30017"
+msgid "2 seconds"
+msgstr ""
+
+msgctxt "#30018"
+msgid "3 seconds"
+msgstr ""
+
+msgctxt "#30019"
+msgid "5 seconds"
+msgstr ""
+
+msgctxt "#30020"
+msgid "10 seconds"
+msgstr ""
+
+msgctxt "#30021"
+msgid "Show notifications"
+msgstr ""
+
+msgctxt "#30022"
+msgid "Debug logging"
+msgstr ""
+
+msgctxt "#30030"
+msgid "Select Videos for Manual Mode"
+msgstr ""
+
+msgctxt "#30031"
+msgid "No USB drive detected"
+msgstr ""
+
+msgctxt "#30032"
+msgid "No video files found on USB"
+msgstr ""
+
+msgctxt "#30033"
+msgid "USB detected"
+msgstr ""
+
+msgctxt "#30034"
+msgid "USB removed"
+msgstr ""
+
+msgctxt "#30035"
+msgid "Starting playback"
+msgstr ""
+
+msgctxt "#30036"
+msgid "Play now (Test autoplay)"
+msgstr ""
+
+msgctxt "#30037"
+msgid "Open Add-on Settings"
+msgstr ""
+
+msgctxt "#30038"
+msgid "Selected video(s) saved"
+msgstr ""
