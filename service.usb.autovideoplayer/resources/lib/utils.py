@@ -1,11 +1,27 @@
 # -*- coding: utf-8 -*-
-"""Utility functions for logging, notifications, and string sorting."""
+"""Utility functions for logging, notifications, localization, and natural sorting."""
 
 import re
 import traceback
 import xbmc
 import xbmcgui
-from resources.lib.constants import LOG_PREFIX
+import xbmcaddon
+from resources.lib.constants import ADDON_ID, LOG_PREFIX
+
+
+def get_string(string_id):
+    """
+    Returns localized string from Kodi language catalog according to
+    current system language (English / Vietnamese / etc.).
+    """
+    try:
+        addon = xbmcaddon.Addon(ADDON_ID)
+        text = addon.getLocalizedString(string_id)
+        if text:
+            return text
+    except Exception:
+        pass
+    return ""
 
 
 def natural_sort_key(s):
@@ -45,10 +61,14 @@ def log_error(msg, exc=None):
 
 
 def notify(heading, message, duration=3000, icon=xbmcgui.NOTIFICATION_INFO, enabled=True):
-    """Displays a notification dialog if enabled."""
+    """Displays a notification dialog if enabled, resolving integer IDs to localized strings."""
     if not enabled:
         return
     try:
+        if isinstance(heading, int):
+            heading = get_string(heading)
+        if isinstance(message, int):
+            message = get_string(message)
         xbmcgui.Dialog().notification(heading, message, icon, duration)
     except Exception as e:
         log_error(f"Failed to display notification: {e}")

@@ -10,95 +10,95 @@ msgstr ""
 
 msgctxt "#30000"
 msgid "General"
-msgstr "General"
+msgstr "Cài đặt chung"
 
 msgctxt "#30001"
 msgid "Enable USB Auto Video Player"
-msgstr "Enable USB Auto Video Player"
+msgstr "Bật USB Auto Video Player"
 
 msgctxt "#30002"
 msgid "Auto play when USB inserted"
-msgstr "Auto play when USB inserted"
+msgstr "Tự động phát khi cắm USB"
 
 msgctxt "#30003"
 msgid "Playback mode"
-msgstr "Playback mode"
+msgstr "Chế độ phát"
 
 msgctxt "#30004"
 msgid "Auto play single video and loop"
-msgstr "Auto play single video and loop"
+msgstr "Tự động phát 1 video và lặp lại"
 
 msgctxt "#30005"
 msgid "Auto play all videos and loop"
-msgstr "Auto play all videos and loop"
+msgstr "Tự động phát tất cả video và lặp lại"
 
 msgctxt "#30006"
 msgid "Manual video selection"
-msgstr "Manual video selection"
+msgstr "Chọn video thủ công"
 
 msgctxt "#30007"
 msgid "Video ordering"
-msgstr "Video ordering"
+msgstr "Thứ tự sắp xếp video"
 
 msgctxt "#30008"
 msgid "File name A -> Z"
-msgstr "File name A -> Z"
+msgstr "Tên file A → Z"
 
 msgctxt "#30009"
 msgid "File name Z -> A"
-msgstr "File name Z -> A"
+msgstr "Tên file Z → A"
 
 msgctxt "#30010"
 msgid "Random"
-msgstr "Random"
+msgstr "Ngẫu nhiên"
 
 msgctxt "#30011"
 msgid "Scan subfolders"
-msgstr "Scan subfolders"
+msgstr "Tìm video trong thư mục con"
 
 msgctxt "#30012"
 msgid "Start playback fullscreen"
-msgstr "Start playback fullscreen"
+msgstr "Phát video toàn màn hình"
 
 msgctxt "#30013"
 msgid "Repeat playback"
-msgstr "Repeat playback"
+msgstr "Lặp lại video/playlist"
 
 msgctxt "#30014"
 msgid "Delay after USB detected"
-msgstr "Delay after USB detected"
+msgstr "Thời gian chờ sau khi phát hiện USB"
 
 msgctxt "#30015"
 msgid "0 seconds"
-msgstr "0 seconds"
+msgstr "0 giây"
 
 msgctxt "#30016"
 msgid "1 second"
-msgstr "1 second"
+msgstr "1 giây"
 
 msgctxt "#30017"
 msgid "2 seconds"
-msgstr "2 seconds"
+msgstr "2 giây"
 
 msgctxt "#30018"
 msgid "3 seconds"
-msgstr "3 seconds"
+msgstr "3 giây"
 
 msgctxt "#30019"
 msgid "5 seconds"
-msgstr "5 seconds"
+msgstr "5 giây"
 
 msgctxt "#30020"
 msgid "10 seconds"
-msgstr "10 seconds"
+msgstr "10 giây"
 
 msgctxt "#30021"
 msgid "Show notifications"
-msgstr "Show notifications"
+msgstr "Hiển thị thông báo"
 
 msgctxt "#30022"
 msgid "Debug logging"
-msgstr "Debug logging"
+msgstr "Ghi log chi tiết"
 
 msgctxt "#30030"
 msgid "USB Auto Video Player"
@@ -106,64 +106,64 @@ msgstr "USB Auto Video Player"
 
 msgctxt "#30031"
 msgid "No USB drive detected"
-msgstr "No USB drive detected"
+msgstr "Không tìm thấy USB nào đang cắm"
 
 msgctxt "#30032"
 msgid "No video files found on USB"
-msgstr "No video files found on USB"
+msgstr "Không tìm thấy video trên USB"
 
 msgctxt "#30033"
 msgid "USB detected: %s"
-msgstr "USB detected: %s"
+msgstr "Phát hiện USB: %s"
 
 msgctxt "#30034"
 msgid "USB removed. Stopping playback"
-msgstr "USB removed. Stopping playback"
+msgstr "Đã rút USB. Dừng phát video"
 
 msgctxt "#30035"
 msgid "Found %d video(s). Starting playback..."
-msgstr "Found %d video(s). Starting playback..."
+msgstr "Tìm thấy %d video. Bắt đầu phát..."
 
 msgctxt "#30036"
 msgid "1. Select Videos for Manual Mode (Mode 3)"
-msgstr "1. Select Videos for Manual Mode (Mode 3)"
+msgstr "1. Chọn video cho Chế độ Thủ công (Mode 3)"
 
 msgctxt "#30037"
 msgid "2. Play now from USB (Start Playback)"
-msgstr "2. Play now from USB (Start Playback)"
+msgstr "2. Phát video ngay từ USB (Bắt đầu phát)"
 
 msgctxt "#30038"
 msgid "3. Open Add-on Settings"
-msgstr "3. Open Add-on Settings"
+msgstr "3. Mở Cài đặt Add-on"
 
 msgctxt "#30039"
 msgid "Select video(s) for Manual Mode (Mode 3)"
-msgstr "Select video(s) for Manual Mode (Mode 3)"
+msgstr "Chọn video cho Chế độ Thủ công (Mode 3)"
 
 msgctxt "#30040"
 msgid "Selected video(s) saved: %d"
-msgstr "Selected video(s) saved: %d"
+msgstr "Đã lưu %d video đã chọn"
 
 msgctxt "#30041"
 msgid "Please insert USB before selecting videos"
-msgstr "Please insert USB before selecting videos"
+msgstr "Vui lòng cắm USB trước khi chọn video"
 
 msgctxt "#30042"
 msgid "Select USB Drive"
-msgstr "Select USB Drive"
+msgstr "Chọn thiết bị USB"
 
 msgctxt "#30043"
 msgid "Mode 3 active: No videos configured in settings"
-msgstr "Mode 3 active: No videos configured in settings"
+msgstr "Chế độ 3: Chưa chọn video nào trong cài đặt"
 
 msgctxt "#30044"
 msgid "Selected videos not found on this USB"
-msgstr "Selected videos not found on this USB"
+msgstr "Không tìm thấy video đã chọn trên USB này"
 
 msgctxt "#30045"
 msgid "Playing %d selected video(s)"
-msgstr "Playing %d selected video(s)"
+msgstr "Phát %d video đã chọn"
 
 msgctxt "#30046"
 msgid "Scanning and starting playback from USB..."
-msgstr "Scanning and starting playback from USB..."
+msgstr "Đang quét và bắt đầu phát video từ USB..."
