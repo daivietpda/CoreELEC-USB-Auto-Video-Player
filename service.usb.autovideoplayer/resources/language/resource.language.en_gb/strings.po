@@ -167,3 +167,87 @@ msgstr "Playing %d selected video(s)"
 msgctxt "#30046"
 msgid "Scanning and starting playback from USB..."
 msgstr "Scanning and starting playback from USB..."
+
+msgctxt "#30050"
+msgid "HLS Stream"
+msgstr "HLS Stream"
+
+msgctxt "#30051"
+msgid "Enable HLS stream"
+msgstr "Enable HLS stream"
+
+msgctxt "#30052"
+msgid "HLS Stream URL"
+msgstr "HLS Stream URL"
+
+msgctxt "#30053"
+msgid "Source priority"
+msgstr "Source priority"
+
+msgctxt "#30054"
+msgid "HLS First (Fallback to USB)"
+msgstr "HLS First (Fallback to USB)"
+
+msgctxt "#30055"
+msgid "USB First (Fallback to HLS)"
+msgstr "USB First (Fallback to HLS)"
+
+msgctxt "#30056"
+msgid "HLS Only"
+msgstr "HLS Only"
+
+msgctxt "#30057"
+msgid "Retry interval when offline"
+msgstr "Retry interval when offline"
+
+msgctxt "#30058"
+msgid "10 seconds"
+msgstr "10 seconds"
+
+msgctxt "#30059"
+msgid "15 seconds"
+msgstr "15 seconds"
+
+msgctxt "#30060"
+msgid "30 seconds"
+msgstr "30 seconds"
+
+msgctxt "#30061"
+msgid "60 seconds"
+msgstr "60 seconds"
+
+msgctxt "#30062"
+msgid "Connection timeout"
+msgstr "Connection timeout"
+
+msgctxt "#30063"
+msgid "2 seconds"
+msgstr "2 seconds"
+
+msgctxt "#30064"
+msgid "3 seconds"
+msgstr "3 seconds"
+
+msgctxt "#30065"
+msgid "5 seconds"
+msgstr "5 seconds"
+
+msgctxt "#30066"
+msgid "HLS stream is online: Starting playback"
+msgstr "HLS stream is online: Starting playback"
+
+msgctxt "#30067"
+msgid "HLS stream is offline or unreachable"
+msgstr "HLS stream is offline or unreachable"
+
+msgctxt "#30068"
+msgid "Switching to USB video fallback"
+msgstr "Switching to USB video fallback"
+
+msgctxt "#30069"
+msgid "4. Play HLS Stream now"
+msgstr "4. Play HLS Stream now"
+
+msgctxt "#30070"
+msgid "HLS stream is back online. Resuming HLS"
+msgstr "HLS stream is back online. Resuming HLS"

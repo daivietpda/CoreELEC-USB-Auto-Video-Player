@@ -39,6 +39,8 @@ def play_single_video(filepath, player, is_fullscreen=True, is_repeat=True, debu
                 player.user_stopped = False
             if hasattr(player, "playback_ended"):
                 player.playback_ended = False
+            if hasattr(player, "is_playing_hls"):
+                player.is_playing_hls = False
             player.play(pl)
 
         if is_repeat:
@@ -75,6 +77,8 @@ def play_multiple_videos(file_list, player, is_fullscreen=True, is_repeat=True, 
                 player.user_stopped = False
             if hasattr(player, "playback_ended"):
                 player.playback_ended = False
+            if hasattr(player, "is_playing_hls"):
+                player.is_playing_hls = False
             player.play(pl)
 
         if is_repeat:
@@ -91,6 +95,46 @@ def play_multiple_videos(file_list, player, is_fullscreen=True, is_repeat=True, 
         return False
 
 
+def play_hls_stream(url, player, is_fullscreen=True, debug=False):
+    """Plays an online HLS stream (.m3u8) using Kodi player."""
+    log(f"Starting HLS stream playback: {url}")
+    try:
+        pl = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        pl.clear()
+
+        item = xbmcgui.ListItem(path=url, offscreen=True)
+        item.setMimeType("application/vnd.apple.mpegurl")
+        item.setProperty("inputstream", "inputstream.ffmpegdirect")
+        item.setContentLookup(False)
+        item.setLabel("Live Stream (HLS)")
+        try:
+            tag = item.getVideoInfoTag()
+            tag.setResumePoint(0.0)
+            tag.setTitle("Live Stream (HLS)")
+        except Exception:
+            pass
+
+        pl.add(url, item)
+
+        if player:
+            if hasattr(player, "user_stopped"):
+                player.user_stopped = False
+            if hasattr(player, "playback_ended"):
+                player.playback_ended = False
+            if hasattr(player, "is_playing_hls"):
+                player.is_playing_hls = True
+            player.play(pl)
+
+        if is_fullscreen:
+            xbmc.sleep(300)
+            xbmc.executebuiltin("ActivateWindow(fullscreenvideo)")
+
+        return True
+    except Exception as e:
+        log_error(f"Failed to play HLS stream {url}", e)
+        return False
+
+
 def stop_playback(player):
     """Safely stops playback and clears playlist."""
     try:
@@ -99,9 +143,9 @@ def stop_playback(player):
         pl = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
         pl.clear()
         if player:
-            if hasattr(player, "user_stopped"):
-                player.user_stopped = True
             if hasattr(player, "playback_ended"):
                 player.playback_ended = False
+            if hasattr(player, "is_playing_hls"):
+                player.is_playing_hls = False
     except Exception as e:
         log_error("Failed to cleanly stop playback", e)

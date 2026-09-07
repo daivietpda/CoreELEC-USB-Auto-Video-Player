@@ -8,6 +8,9 @@ from resources.lib.constants import (
     USB_DELAYS,
     MODE_SINGLE_LOOP,
     SORT_A_TO_Z,
+    HLS_PRIORITY_FIRST,
+    HLS_RETRY_INTERVALS,
+    HLS_TIMEOUTS,
 )
 from resources.lib.utils import log_error
 
@@ -114,3 +117,42 @@ class SettingsManager:
         except Exception as e:
             log_error("Failed to save manual_selected_files setting", e)
             return False
+
+    # --- HLS Stream Settings ---
+
+    def is_hls_enabled(self):
+        try:
+            return self.addon.getSettingBool("hls_enabled")
+        except Exception:
+            return False
+
+    def get_hls_url(self):
+        try:
+            url = self.addon.getSettingString("hls_url")
+            return url.strip() if url else ""
+        except Exception:
+            return "http://192.168.10.193:8080/hls/tv.m3u8"
+
+    def get_hls_priority(self):
+        try:
+            return self.addon.getSettingInt("hls_priority")
+        except Exception:
+            return HLS_PRIORITY_FIRST
+
+    def get_hls_retry_interval(self):
+        try:
+            idx = self.addon.getSettingInt("hls_retry_interval")
+            if 0 <= idx < len(HLS_RETRY_INTERVALS):
+                return HLS_RETRY_INTERVALS[idx]
+            return 15
+        except Exception:
+            return 15
+
+    def get_hls_timeout(self):
+        try:
+            idx = self.addon.getSettingInt("hls_timeout")
+            if 0 <= idx < len(HLS_TIMEOUTS):
+                return HLS_TIMEOUTS[idx]
+            return 2
+        except Exception:
+            return 2

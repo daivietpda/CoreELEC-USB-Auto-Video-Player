@@ -29,6 +29,17 @@ SORT_RANDOM = 2
 # USB Delay index mapping (in seconds)
 USB_DELAYS = [0, 1, 2, 3, 5, 10]
 
+# HLS Priority Modes
+HLS_PRIORITY_FIRST = 0        # Ưu tiên HLS (Fallback sang USB khi offline)
+HLS_PRIORITY_USB_FIRST = 1    # Ưu tiên USB (Fallback sang HLS khi không có USB)
+HLS_PRIORITY_ONLY = 2         # Chỉ phát luồng HLS
+
+# HLS Retry Intervals (in seconds)
+HLS_RETRY_INTERVALS = [10, 15, 30, 60]
+
+# HLS Connection Timeouts (in seconds)
+HLS_TIMEOUTS = [2, 3, 5]
+
 # System mounts and paths that must never be treated as external USB
 SYSTEM_MOUNT_PREFIXES = (
     "/flash",

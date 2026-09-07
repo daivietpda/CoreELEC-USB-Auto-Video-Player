@@ -13,4 +13,12 @@
     <setting id="debug_log" type="bool" label="30022" default="false"/>
     <setting id="manual_selected_files" type="text" default="[]" visible="false"/>
   </category>
+
+  <category label="30050">
+    <setting id="hls_enabled" type="bool" label="30051" default="false"/>
+    <setting id="hls_url" type="text" label="30052" default="http://192.168.10.193:8080/hls/tv.m3u8"/>
+    <setting id="hls_priority" type="enum" label="30053" lvalues="30054|30055|30056" default="0"/>
+    <setting id="hls_retry_interval" type="enum" label="30057" lvalues="30058|30059|30060|30061" default="1"/>
+    <setting id="hls_timeout" type="enum" label="30062" lvalues="30063|30064|30065" default="0"/>
+  </category>
 </settings>

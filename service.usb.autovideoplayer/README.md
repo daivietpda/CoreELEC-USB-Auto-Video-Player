@@ -1,117 +1,91 @@
-# CoreELEC USB Auto Video Player Add-on
+# CoreELEC USB Auto Video Player Add-on (v1.0.0)
 
-Kodi Service Add-on chuyên dụng cho CoreELEC (21.3 Omega) có khả năng tự động phát hiện USB cắm vào thiết bị và tự động phát video toàn màn hình theo các chế độ tùy chỉnh với vòng lặp vô hạn, chống resume dialog, chống trigger nhiều lần và xử lý an toàn khi người dùng nhấn Stop hoặc rút USB.
+Kodi Service Add-on chuyên dụng cho CoreELEC (21.3 Omega) có khả năng tự động phát hiện USB cắm vào thiết bị, tự động phát video toàn màn hình theo các chế độ tùy chỉnh với vòng lặp vô hạn, và **hỗ trợ tự động phát hiện và phát luồng trực tuyến HLS (.m3u8)** với cơ chế kiểm tra kết nối thông minh (chống treo khi mất mạng) cùng chuyển đổi dự phòng (fallback) linh hoạt giữa HLS và USB.
 
 ---
 
 ## 1. Tính Năng Nổi Bật
 
 - **Tự động nhận diện USB**: Hoạt động tức thì khi cắm USB mới vào thiết bị, hoặc tự động phát ngay khi khởi động CoreELEC nếu USB đã cắm sẵn từ trước.
-- **3 Chế độ phát linh hoạt**:
+- **Hỗ trợ Luồng Trực Tuyến HLS (.m3u8)**:
+  - Cho phép nhập trực tiếp URL luồng HLS (ví dụ: `http://192.168.x.x:8080/hls/tv.m3u8`) trong cài đặt.
+  - **Tiền kiểm tra an toàn (Pre-flight probe)**: Luôn kiểm tra trạng thái HTTP của luồng trước khi gọi Kodi Player.
+  - **Nếu luồng ONLINE**: Tự động kết nối và phát toàn màn hình bằng hardware decoding.
+  - **Nếu luồng OFFLINE hoặc mất mạng**: **Tuyệt đối không cố gắng play**, tránh hoàn toàn tình trạng đứng hình, treo Kodi hoặc spam thông báo lỗi.
+  - **Chuyển đổi dự phòng thông minh (Fallback)**: Khi luồng HLS mất tín hiệu, tự động chuyển sang phát video trên USB (nếu có cắm); khi luồng HLS online trở lại, tự động phục hồi phát HLS.
+- **3 Chế độ phát video USB**:
   1. **Tự động phát 1 video và lặp lại (Single Video Loop)**: Tự động chọn video duy nhất (hoặc video đầu tiên theo thứ tự sắp xếp) và lặp lại vô hạn.
   2. **Tự động phát tất cả video liên tiếp và lặp lại (Multiple Video Loop)**: Tự động lập playlist toàn bộ video trên USB và phát xoay vòng liên tục không gián đoạn.
   3. **Chọn video thủ công (Manual Selection)**: Cho phép người dùng duyệt và chọn 1 hoặc nhiều video cụ thể bằng hộp thoại checkbox. Lựa chọn được lưu bền vững qua các lần khởi động lại.
+- **Đa ngôn ngữ tự động (i18n)**: Tự động chuyển đổi giao diện và thông báo theo ngôn ngữ hệ thống của Kodi (**Tiếng Việt** và **Tiếng Anh**).
 - **Thứ tự phát đa dạng**: Hỗ trợ Tên file A → Z (áp dụng Natural Sorting: `1.mp4`, `2.mp4`, `10.mp4`), Tên file Z → A, và Phát ngẫu nhiên (Random).
 - **Phát từ đầu không Resume Dialog**: Tự động đặt điểm phát về `00:00:00`, triệt tiêu hoàn toàn hộp thoại hỏi Resume của Kodi.
 - **Phát toàn màn hình (Fullscreen)**: Tự động chuyển giao diện về toàn màn hình khi bắt đầu phát.
 - **Cơ chế dừng thông minh**: Khi người dùng bấm STOP trên remote hoặc bàn phím, add-on dừng phát và kết thúc phiên autoplay hiện tại, tuyệt đối không tự động ép phát lại làm kẹt người dùng.
 - **An toàn khi rút USB**: Tự động nhận diện khi USB bị rút trong lúc phát, dừng player sạch sẽ, giải phóng playlist và quay lại trạng thái chờ mà không gây treo hoặc crash Kodi.
-- **Debounce chống trùng lặp**: Thiết lập độ trễ chờ filesystem mount ổn định (0s, 1s, 2s, 3s, 5s, 10s; mặc định 2s) nhằm loại trừ hoàn toàn các sự kiện kích hoạt trùng lặp.
-- **Bảo vệ hệ thống**: Chỉ quét các thiết bị lưu trữ ngoài/USB removable, tuyệt đối không quét hay can thiệp vào các phân vùng hệ thống (`/storage`, `/flash`, `/`, eMMC).
+- **Debounce chống trùng lặp**: Thiết lập độ trễ chờ filesystem mount ổn định (0s - 10s; mặc định 2s) nhằm loại trừ hoàn toàn các sự kiện kích hoạt trùng lặp.
+- **Bảo vệ hệ thống**: Chỉ quét các thiết bị lưu trữ ngoài/USB removable, tuyệt đối không can thiệp vào các phân vùng hệ thống (`/storage`, `/flash`, `/`, eMMC).
 
 ---
 
-## 2. Định Dạng Video Hỗ Trợ
+## 2. Định Dạng Hỗ Trợ
 
-- **Bắt buộc**: `.mp4`, `.mpg`
-- **Mở rộng**: `.mpeg`, `.mkv`, `.avi`, `.ts`, `.m2ts`, `.mov`
-- **Không phân biệt chữ hoa/chữ thường**: `.mp4`, `.MP4`, `.mpg`, `.MPG` đều được nhận diện chính xác.
-
----
-
-## 3. Cách Chuẩn Bị USB
-
-1. Định dạng USB với filesystem FAT32, exFAT, NTFS hoặc ext4.
-2. Sao chép các file video vào thư mục gốc USB hoặc bất kỳ thư mục con nào (ví dụ `USB:/video/` hoặc `USB:/advertising/`).
-3. Nếu muốn kiểm soát thứ tự phát theo danh số, hãy đặt tên file dạng `1.mp4`, `2.mp4`, `10.mp4` hoặc `video01.mp4`, `video02.mp4`.
+- **Luồng trực tuyến**: Luồng HLS (`.m3u8`), HTTP Live Streams.
+- **File video USB bắt buộc**: `.mp4`, `.mpg`.
+- **File video USB mở rộng**: `.mpeg`, `.mkv`, `.avi`, `.ts`, `.m2ts`, `.mov` (không phân biệt chữ hoa/thường).
 
 ---
 
-## 4. Hướng Dẫn Cài Đặt
+## 3. Cài Đặt và Cấu Hình
 
-### Cách 1: Cài từ file ZIP qua giao diện Kodi (Khuyên dùng)
-1. Tải file `service.usb.autovideoplayer-1.0.0.zip` chép vào USB hoặc chia sẻ mạng Samba của CoreELEC.
-2. Trên màn hình Kodi, vào **Settings (Biểu tượng bánh răng)** → **Add-ons**.
-3. Chọn **Install from zip file** (Nếu có thông báo bảo mật nguồn ngoài, chọn *Settings* → bật *Unknown sources*).
-4. Tìm và chọn file `service.usb.autovideoplayer-1.0.0.zip`.
-5. Đợi vài giây, Kodi sẽ hiển thị thông báo góc phải thông báo add-on đã được cài đặt thành công.
+### A. Cài từ file ZIP qua giao diện Kodi
+1. Tải file `service.usb.autovideoplayer-1.0.0.zip` chép vào USB hoặc bộ nhớ CoreELEC.
+2. Trên màn hình Kodi, vào **Settings (Cài đặt)** → **Add-ons**.
+3. Chọn **Install from zip file** (Cài đặt từ tệp zip) và chọn file zip của add-on.
 
-### Cách 2: Cài đặt trực tiếp qua SSH / SFTP
-Sao chép thư mục add-on vào thư mục addons của Kodi trên thiết bị:
-```bash
-scp -r service.usb.autovideoplayer root@192.168.x.x:/storage/.kodi/addons/
-ssh root@192.168.x.x "systemctl restart kodi"
-```
-
----
-
-## 5. Cấu Hình Add-on (Settings)
-
+### B. Cấu hình Cài đặt (Settings)
 Vào **Settings** → **Add-ons** → **My add-ons** → **Services** → **USB Auto Video Player** → **Configure**:
 
-| Tùy chọn | Giá trị khả dụng | Mặc định | Ý nghĩa |
-| :--- | :--- | :--- | :--- |
-| **Enable USB Auto Video Player** | Bật / Tắt | **Bật** | Bật hoặc tắt toàn bộ dịch vụ add-on |
-| **Tự động phát khi cắm USB** | Bật / Tắt | **Bật** | Tự kích hoạt phát khi cắm USB hoặc khởi động |
-| **Chế độ phát (Playback mode)** | 1. Tự động phát 1 video và lặp lại<br>2. Tự động phát tất cả video và lặp lại<br>3. Chọn video thủ công | **1 video** | Quyết định cách thức phát video trên USB |
-| **Thứ tự video (Video ordering)** | A → Z, Z → A, Ngẫu nhiên | **A → Z** | Thứ tự sắp xếp danh sách phát |
-| **Tìm video trong thư mục con** | Bật / Tắt | **Bật** | Quét đệ quy tìm video ở mọi thư mục |
-| **Phát video toàn màn hình** | Bật / Tắt | **Bật** | Tự chuyển về fullscreen khi bắt đầu phát |
-| **Lặp lại video/playlist** | Bật / Tắt | **Bật** | Tự động lặp lại vô hạn khi kết thúc |
-| **Delay sau khi cắm USB** | 0s, 1s, 2s, 3s, 5s, 10s | **2 giây** | Chờ filesystem mount ổn định trước khi quét |
-| **Hiển thị thông báo (Notifications)** | Bật / Tắt | **Bật** | Hiện thông báo nhỏ góc màn hình khi cắm/rút USB |
-| **Ghi log chi tiết (Debug logging)** | Bật / Tắt | **Tắt** | Bật ghi log debug để phân tích lỗi |
+#### 1. Cài đặt chung (General)
+- **Bật USB Auto Video Player**: Bật/tắt add-on.
+- **Tự động phát khi cắm USB**: Tự động kích hoạt khi có thiết bị USB.
+- **Chế độ phát**: Lặp 1 video / Lặp tất cả video / Chọn video thủ công.
+- **Thứ tự video**: A → Z / Z → A / Ngẫu nhiên.
+- **Tìm video trong thư mục con**: Quét đệ quy các thư mục trên USB.
+- **Phát video toàn màn hình**: Tự động chuyển về fullscreen.
+- **Lặp lại video/playlist**: Bật vòng lặp vô hạn.
+- **Thời gian chờ sau khi cắm USB**: Trì hoãn 2s (chống trigger trùng lặp).
+
+#### 2. Luồng trực tuyến HLS (HLS Stream)
+- **Bật luồng trực tuyến HLS**: Kích hoạt chế độ kiểm tra và phát luồng HLS.
+- **Địa chỉ luồng HLS (.m3u8)**: Nhập URL (ví dụ: `http://192.168.x.x:8080/hls/tv.m3u8`).
+- **Chế độ ưu tiên nguồn phát**:
+  - *Ưu tiên HLS (Chuyển sang USB khi offline)*: Luôn ưu tiên phát HLS khi online; nếu mất tín hiệu hoặc mất mạng thì chuyển sang video USB; khi HLS online lại thì tự động phát tiếp HLS.
+  - *Ưu tiên USB (Chuyển sang HLS khi không có USB)*: Phát USB khi có cắm; nếu không có USB thì phát HLS.
+  - *Chỉ phát luồng HLS*: Chỉ phát HLS, nếu offline thì ở trạng thái chờ an toàn, không phát USB.
+- **Thời gian thăm dò lại khi luồng offline**: 10s, 15s, 30s, 60s (chu kỳ kiểm tra ngầm khi luồng mất kết nối).
+- **Thời gian chờ kết nối tối đa (Timeout)**: 2s, 3s, 5s (ngắt kiểm tra nhanh nếu mạng đứt, tránh treo).
 
 ---
 
-## 6. Hướng Dẫn Sử Dụng Chế Độ Thủ Công (Mode 3)
+## 4. Menu Chức Năng Nhanh
 
-1. Cắm USB có chứa video vào box CoreELEC.
-2. Mở add-on từ menu **Add-ons** → **Programs** → chọn **USB Auto Video Player**.
-3. Chọn **1. Chọn video cho Chế độ Thủ công (Mode 3)**.
-4. Một danh sách chứa toàn bộ video trên USB sẽ hiện ra với các ô checkbox.
-5. Dùng remote hoặc chuột chọn các video muốn phát, sau đó nhấn **OK**.
-6. Vào Cài đặt add-on chuyển **Chế độ phát** thành **Chọn video thủ công**.
-7. Khi cắm USB vào (hoặc chọn menu *Phát video ngay từ USB*), add-on sẽ chỉ phát và lặp lại các video đã được chọn.
+Khi mở add-on từ menu **Add-ons** → **Programs** (hoặc **Chương trình**):
+1. **1. Chọn video cho Chế độ Thủ công (Mode 3)**: Mở danh sách checkbox chọn video trên USB.
+2. **2. Phát video ngay từ USB (Bắt đầu phát)**: Kích hoạt phát video USB ngay lập tức.
+3. **3. Phát ngay luồng HLS**: Tiền kiểm tra tín hiệu luồng HLS và phát ngay lập tức (nếu offline sẽ thông báo lý do cụ thể và không mở player).
+4. **4. Mở Cài đặt Add-on**: Mở nhanh bảng cấu hình add-on.
 
 ---
 
-## 7. Vị Trí Log & Debugging
+## 5. Vị Trí Log & Debugging
 
 File log của Kodi được lưu tại:
 ```text
 /storage/.kodi/temp/kodi.log
 ```
 
-Để theo dõi log hoạt động của add-on theo thời gian thực qua SSH:
+Theo dõi log hoạt động theo thời gian thực:
 ```bash
 tail -f /storage/.kodi/temp/kodi.log | grep "USB-AutoVideo"
 ```
-
-Các dòng log tiêu chuẩn của add-on:
-```text
-[USB-AutoVideo] Service started.
-[USB-AutoVideo] Detected USB insertion: 'USB-64G' (/var/media/USB-64G).
-[USB-AutoVideo] Found 4 video(s) on /var/media/USB-64G.
-[USB-AutoVideo] Starting playlist with 4 video(s)
-[USB-AutoVideo] User stopped playback. Autoplay session suspended.
-[USB-AutoVideo] USB storage unmounted/removed: /var/media/USB-64G
-```
-
----
-
-## 8. Cách Gỡ Cài Đặt (Uninstall)
-
-1. Vào **Settings** → **Add-ons** → **My add-ons** → **Services** → **USB Auto Video Player**.
-2. Chọn **Uninstall**.
-3. Khởi động lại Kodi nếu cần.
