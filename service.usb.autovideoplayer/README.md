@@ -1,4 +1,4 @@
-# CoreELEC USB Auto Video Player Add-on (v1.0.0)
+# CoreELEC USB Auto Video Player Add-on (v1.1.0)
 
 Kodi Service Add-on chuyên dụng cho CoreELEC (21.3 Omega) có khả năng tự động phát hiện USB cắm vào thiết bị, tự động phát video toàn màn hình theo các chế độ tùy chỉnh với vòng lặp vô hạn, và **hỗ trợ tự động phát hiện và phát luồng trực tuyến HLS (.m3u8)** với cơ chế kiểm tra kết nối thông minh (chống treo khi mất mạng) cùng chuyển đổi dự phòng (fallback) linh hoạt giữa HLS và USB.
 
@@ -39,7 +39,7 @@ Kodi Service Add-on chuyên dụng cho CoreELEC (21.3 Omega) có khả năng t�
 ## 3. Cài Đặt và Cấu Hình
 
 ### A. Cài từ file ZIP qua giao diện Kodi
-1. Tải file `service.usb.autovideoplayer-1.0.0.zip` chép vào USB hoặc bộ nhớ CoreELEC.
+1. Tải file `service.usb.autovideoplayer-1.1.0.zip` chép vào USB hoặc bộ nhớ CoreELEC.
 2. Trên màn hình Kodi, vào **Settings (Cài đặt)** → **Add-ons**.
 3. Chọn **Install from zip file** (Cài đặt từ tệp zip) và chọn file zip của add-on.
 

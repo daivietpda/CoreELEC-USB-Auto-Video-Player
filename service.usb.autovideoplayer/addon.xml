@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="service.usb.autovideoplayer"
        name="USB Auto Video Player"
-       version="1.0.0"
-       provider-name="Antigravity">
+       version="1.1.0"
+       provider-name="daivietpda">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
   </requires>
@@ -13,8 +13,10 @@
   <extension point="xbmc.addon.metadata">
     <summary lang="en_GB">Automatically play videos from USB on CoreELEC</summary>
     <summary lang="vi_VN">Tự động phát video từ USB trên CoreELEC</summary>
-    <description lang="en_GB">USB Auto Video Player detects inserted or existing USB drives and automatically plays videos based on configurable modes (single loop, multiple loop, manual selection) with repeat, natural sorting, and graceful stop handling.</description>
-    <description lang="vi_VN">USB Auto Video Player tự động phát hiện USB cắm vào thiết bị CoreELEC và tự phát video theo cấu hình (lặp 1 video, lặp tất cả video, hoặc chọn video thủ công), hỗ trợ lặp vô hạn, sắp xếp tự nhiên và dừng an toàn.</description>
+    <description lang="en_GB">USB Auto Video Player detects inserted or existing USB drives and automatically plays videos based on configurable modes (single loop, multiple loop, manual selection) with repeat, natural sorting, HLS stream fallback, and graceful stop handling.</description>
+    <description lang="vi_VN">USB Auto Video Player tự động phát hiện USB cắm vào thiết bị CoreELEC và tự phát video theo cấu hình (lặp 1 video, lặp tất cả video, hoặc chọn video thủ công), hỗ trợ phát luồng HLS trực tuyến với dự phòng USB, lặp vô hạn, sắp xếp tự nhiên và dừng an toàn.</description>
+    <news lang="en_GB">v1.1.0: Added HLS live stream auto-detection with pre-flight probe and fallback to USB; Vietnamese and English localization; direct manual play fix.</news>
+    <news lang="vi_VN">v1.1.0: Hỗ trợ tự động phát hiện luồng HLS trực tuyến với tiền kiểm tra an toàn (chống đơ Kodi); tự động fallback sang USB; hỗ trợ song ngữ tiếng Việt &amp; tiếng Anh; sửa lỗi phát ngay từ USB.</news>
     <platform>all</platform>
     <license>GPL-3.0-only</license>
     <assets>
